@@ -1,35 +1,43 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        domain-info-ui
-      </h1>
-      <h2 class="subtitle">
-        My transcendent Nuxt.js project
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col>
+        <b-form inline>
+          <b-form-input
+            v-model="hostname"
+            size="lg"
+            placeholder="Hostname"
+            class="mr-2"
+          ></b-form-input>
+          <b-button @click="get" size="lg" variant="primary">Search</b-button>
+        </b-form>
+        <div>{{ loading }}</div>
+        <div>{{ info }}</div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import serverApi from '../middleware/server-api'
 export default {
-  components: {
-    Logo
+  components: {},
+  data: () => ({
+    hostname: '',
+    info: '',
+    loading: ''
+  }),
+  function() {},
+  methods: {
+    async get() {
+      this.info = ''
+      if (this.hostname !== '') {
+        const infoResponse = serverApi.get(this.hostname)
+        this.loading = 'Loading ...'
+        this.info = await infoResponse
+        this.loading = ''
+      }
+    }
   }
 }
 </script>
