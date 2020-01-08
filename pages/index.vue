@@ -1,36 +1,44 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col>
-        <b-form inline>
-          <b-form-input
-            v-model="hostname"
-            size="lg"
-            placeholder="Hostname"
-            class="mr-2"
-          ></b-form-input>
-          <b-button @click="get" size="lg" variant="primary">Search</b-button>
-        </b-form>
-        <div>{{ loading }}</div>
-        <div>{{ info }}</div>
-      </b-col>
-    </b-row>
+  <b-container class="text-center">
+    <h1 class="my-5">Domain Info</h1>
+    <b-card no-body>
+      <b-tabs card>
+        <b-tab title="Search hostname" active>
+          <b-form inline class="d-flex justify-content-center">
+            <b-form-input
+              v-model="hostname"
+              size="lg"
+              placeholder="Hostname"
+              class="mr-2"
+            ></b-form-input>
+            <b-button @click="get" size="lg" variant="info">Search</b-button>
+          </b-form>
+          <info-card v-if="info !== null" :info="info"></info-card>
+          <!-- <div>{{ loading }}</div> -->
+        </b-tab>
+        <b-tab title="History">
+          <b-card-text>Tab contents 2</b-card-text>
+        </b-tab>
+      </b-tabs>
+    </b-card>
   </b-container>
 </template>
 
 <script>
 import serverApi from '../middleware/server-api'
+import InfoCard from '../components/InfoCard'
 export default {
-  components: {},
+  components: {
+    InfoCard
+  },
   data: () => ({
     hostname: '',
-    info: '',
+    info: null,
     loading: ''
   }),
-  function() {},
   methods: {
     async get() {
-      this.info = ''
+      this.info = null
       if (this.hostname !== '') {
         const infoResponse = serverApi.get(this.hostname)
         this.loading = 'Loading ...'
@@ -42,35 +50,4 @@ export default {
 }
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
+<style></style>
