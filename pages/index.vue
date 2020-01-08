@@ -1,9 +1,9 @@
 <template>
-  <b-container class="text-center">
-    <h1 class="my-5">Domain Info</h1>
-    <b-card no-body>
+  <b-container>
+    <h1 class="my-5 text-center">Domain Info</h1>
+    <b-card no-body class="mx-5">
       <b-tabs card>
-        <b-tab title="Search hostname" active>
+        <b-tab title="Search hostname" active class="p-5">
           <b-form inline class="d-flex justify-content-center">
             <b-form-input
               v-model="hostname"
@@ -13,7 +13,11 @@
             ></b-form-input>
             <b-button @click="get" size="lg" variant="info">Search</b-button>
           </b-form>
-          <info-card v-if="info !== null" :info="info"></info-card>
+          <info-card
+            v-if="info !== null"
+            :hostname="hostname"
+            :info="info"
+          ></info-card>
           <!-- <div>{{ loading }}</div> -->
         </b-tab>
         <b-tab title="History">
