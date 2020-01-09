@@ -7,6 +7,7 @@ export default {
       return resp.json()
     }
   },
+
   async getAll() {
     const resp = await fetch(`http://localhost:3333/history`)
     if (!resp.ok) {

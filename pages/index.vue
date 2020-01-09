@@ -1,27 +1,13 @@
 <template>
   <b-container>
     <h1 class="my-5 text-center">Domain Info</h1>
-    <b-card no-body class="mx-5">
+    <b-card no-body class="w-75 mx-auto mb-5">
       <b-tabs card>
         <b-tab title="Search hostname" active class="p-5">
-          <b-form inline class="d-flex justify-content-center">
-            <b-form-input
-              v-model="hostname"
-              size="lg"
-              placeholder="Hostname"
-              class="mr-2"
-            ></b-form-input>
-            <b-button @click="get" size="lg" variant="info">Search</b-button>
-          </b-form>
-          <info-card
-            v-if="info !== null"
-            :hostname="hostname"
-            :info="info"
-          ></info-card>
-          <!-- <div>{{ loading }}</div> -->
+          <host-search />
         </b-tab>
-        <b-tab title="History">
-          <b-card-text>Tab contents 2</b-card-text>
+        <b-tab title="History" class="p-5">
+          <host-history />
         </b-tab>
       </b-tabs>
     </b-card>
@@ -29,29 +15,13 @@
 </template>
 
 <script>
-import serverApi from '../middleware/server-api'
-import InfoCard from '../components/InfoCard'
+import HostSearch from '../components/HostSearch'
+import HostHistory from '../components/HostHistory'
+
 export default {
   components: {
-    InfoCard
-  },
-  data: () => ({
-    hostname: '',
-    info: null,
-    loading: ''
-  }),
-  methods: {
-    async get() {
-      this.info = null
-      if (this.hostname !== '') {
-        const infoResponse = serverApi.get(this.hostname)
-        this.loading = 'Loading ...'
-        this.info = await infoResponse
-        this.loading = ''
-      }
-    }
+    HostSearch,
+    HostHistory
   }
 }
 </script>
-
-<style></style>
