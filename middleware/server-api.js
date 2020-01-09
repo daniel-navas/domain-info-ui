@@ -1,6 +1,8 @@
+const baseUrl = 'http://localhost:3333/'
+
 export default {
   async get(url) {
-    const resp = await fetch(`http://localhost:3333/${url}`)
+    const resp = await fetch(`${baseUrl}${url}`)
     if (!resp.ok) {
       throw await resp.json()
     } else {
@@ -9,7 +11,7 @@ export default {
   },
 
   async getAll() {
-    const resp = await fetch(`http://localhost:3333/history`)
+    const resp = await fetch(`${baseUrl}history`)
     if (!resp.ok) {
       throw await resp.json()
     } else {
