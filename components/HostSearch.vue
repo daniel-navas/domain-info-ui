@@ -3,6 +3,8 @@
     <b-form @submit="get" inline>
       <b-form-input
         v-model="hostname"
+        :state="valid"
+        @input="validHostname"
         size="lg"
         placeholder="Hostname"
         class="mr-2"
@@ -36,19 +38,20 @@ export default {
 
   data() {
     return {
-      info: null,
       hostname: '',
+      info: null,
       loading: false,
-      error: false
+      error: false,
+      valid: null
     }
   },
 
   methods: {
     async get(evt) {
       evt.preventDefault()
-      this.info = null
-      this.error = false
-      if (this.hostname !== '') {
+      if (this.valid) {
+        this.info = null
+        this.error = false
         const infoResponse = serverApi.get(this.hostname)
         this.loading = true
         try {
@@ -58,6 +61,12 @@ export default {
         }
         this.loading = false
       }
+    },
+
+    validHostname() {
+      this.valid = /(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]/.test(
+        this.hostname
+      )
     }
   }
 }
